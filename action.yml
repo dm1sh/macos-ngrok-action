@@ -1,0 +1,29 @@
+name: 'Mac OS Ngrok tunelling'
+description: 'A github action for tunelling TCP traffic from within Workflow environemt'
+
+branding:
+  icon: 'activity'
+  color: 'blue'
+
+inputs:
+  timeout:  
+    description: 'Tunelling time'
+    required: true
+    default: '1h'
+  port:
+    description: 'The port to forward traffic to'
+    required: true
+  protocol:
+    description: 'Protocol that will be used for tunelling: tcp or http'
+    required: true
+    default: 'tcp'
+  ngrok_authtoken:
+    description: 'Ngrok authorization token'
+    required: true
+
+runs:
+  using: "composite"
+  steps: 
+    - run: brew install -cask ngrok
+    - run: ngrok authtoken ${{ inputs.ngrok_authtoken }}
+    - run: (ngrok ${{ inputs.protocol }} ${{ inputs.port }}) & sleep ${{ inputs.timeout }} ; kill $!
