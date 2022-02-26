@@ -25,5 +25,8 @@ runs:
   using: "composite"
   steps: 
     - run: brew install -cask ngrok
+      shell: bash
     - run: ngrok authtoken ${{ inputs.ngrok_authtoken }}
+      shell: bash
     - run: (ngrok ${{ inputs.protocol }} ${{ inputs.port }}) & sleep ${{ inputs.timeout }} ; kill $!
+      shell: bash
