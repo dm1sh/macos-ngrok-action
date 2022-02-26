@@ -31,11 +31,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Install docker-compose
+      run: brew install docker docker-machine docker-compose
     
     - name: Run container
       run: docker-compose up -d 
     
-    - uses: dm1sh/macos-ngrok-action
+    - uses: dm1sh/macos-ngrok-action@v0.0.1
       with:
         timeout: 1h
         port: 8080
